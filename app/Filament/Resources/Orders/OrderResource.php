@@ -68,4 +68,33 @@ class OrderResource extends Resource
     
         return $data;
     }
+
+    public static function recalculateTotal(callable $set, callable $get): void
+{
+    $items = $get('items') ?? [];
+
+    $subtotalItems = collect($items)
+        ->sum(fn ($item) => $item['subtotal'] ?? 0);
+
+    $extraCost = $get('extra_cost') ?? 0;
+    $discountType = $get('discount_type');
+    $discountValue = $get('discount_value') ?? 0;
+
+    $discountAmount = 0;
+
+    if ($discountType === 'percent') {
+        $discountAmount = $subtotalItems * ($discountValue / 100);
+    } elseif ($discountType === 'nominal') {
+        $discountAmount = $discountValue;
+    }
+
+    $grandTotal = $subtotalItems + $extraCost - $discountAmount;
+
+    if ($grandTotal < 0) {
+        $grandTotal = 0;
+    }
+
+    $set('total_amount', $subtotalItems);
+    $set('grand_total', $grandTotal);
+}
 }

@@ -36,7 +36,8 @@ class OrdersTable
                     ]),
 
                 TextColumn::make('order_date'),
-            ])
+            ])->defaultSort('order_number', 'desc')
+            
             ->filters([
                 //
             ])

@@ -1,7 +1,3 @@
-@php
-    use Carbon\Carbon;
-@endphp
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -116,17 +112,9 @@
                     <p class="mt-2 font-semibold text-gray-800">
                         {{ $order->customer_name }}
                     </p>
-
                     <p class="text-gray-600 text-sm">
                         {{ $order->customer_phone }}
                     </p>
-
-                    @if($order->customer_instagram)
-                        <p class="text-gray-600 text-sm">
-                            Instagram: {{ '@' . $order->customer_instagram }}
-                        </p>
-                    @endif
-
                     <p class="text-gray-600 text-sm">
                         {{ $order->delivery_address }}
                     </p>
@@ -137,7 +125,7 @@
                         Order Date
                     </p>
                     <p class="font-medium text-gray-800">
-                        {{ Carbon::parse($order->order_date)->format('d M Y') }}
+                        {{ \Carbon\Carbon::parse($order->order_date)->format('d M Y') }}
                     </p>
 
                     <p class="text-sm text-gray-500 mt-4">
@@ -166,41 +154,6 @@
                             class="inline-block px-4 py-1 text-sm font-semibold rounded-full border-2 {{ $statusClass }} print:border-black print:text-black">
                             {{ strtoupper($order->status) }}
                         </span>
-                    </div>
-                    <div class="mt-6 text-sm text-gray-700 space-y-2">
-
-                        <div class="flex justify-between">
-                            <span class="text-gray-500">Payment Method</span>
-                            <span class="font-medium">
-                                {{ ucfirst($order->payment_method) }}
-                            </span>
-                        </div>
-
-                        <div class="flex justify-between">
-                            <span class="text-gray-500">Pickup Method</span>
-                            <span class="font-medium">
-                                {{ $order->pickup_method === 'self_pickup' ? 'Ambil Sendiri' : 'Kurir' }}
-                            </span>
-                        </div>
-
-                        @if($order->pickup_date)
-                            <div class="flex justify-between">
-                                <span class="text-gray-500">Pickup Date</span>
-                                <span class="font-medium">
-                                    {{ Carbon::parse($order->pickup_date)->format('d M Y') }}
-                                </span>
-                            </div>
-                        @endif
-
-                        @if($order->pickup_time)
-                            <div class="flex justify-between">
-                                <span class="text-gray-500">Pickup Time</span>
-                                <span class="font-medium">
-                                    {{ Carbon::parse($order->pickup_time)->format('H:i') }}
-                                </span>
-                            </div>
-                        @endif
-
                     </div>
                 </div>
             </div>
@@ -247,9 +200,8 @@
 
             {{-- TOTAL SECTION --}}
             <div class="mt-8 flex justify-end">
-                <div class="w-96 bg-gray-50 p-6 rounded-xl border">
+                <div class="w-80 bg-gray-50 p-6 rounded-xl border">
 
-                    {{-- SUBTOTAL --}}
                     <div class="flex justify-between text-sm text-gray-600 mb-2">
                         <span>Subtotal</span>
                         <span>
@@ -257,44 +209,10 @@
                         </span>
                     </div>
 
-                    {{-- EXTRA COST --}}
-                    @if($order->extra_cost > 0)
-                        <div class="flex justify-between text-sm text-gray-600 mb-2">
-                            <span>Biaya Tambahan</span>
-                            <span>
-                                Rp {{ number_format($order->extra_cost, 0, ',', '.') }}
-                            </span>
-                        </div>
-                    @endif
-
-                    {{-- DISCOUNT --}}
-                    @if($order->discount_value > 0)
-                        <div class="flex justify-between text-sm text-red-600 mb-2">
-                            <span>
-                                Diskon
-                                @if($order->discount_type === 'percent')
-                                    ({{ $order->discount_value }}%)
-                                @endif
-                            </span>
-
-                            <span>
-                                - Rp
-                                @php
-                                    $discountAmount = $order->discount_type === 'percent'
-                                        ? $order->total_amount * ($order->discount_value / 100)
-                                        : $order->discount_value;
-                                @endphp
-
-                                {{ number_format($discountAmount, 0, ',', '.') }}
-                            </span>
-                        </div>
-                    @endif
-
-                    {{-- GRAND TOTAL --}}
                     <div class="border-t pt-3 flex justify-between text-xl font-bold text-gray-900">
                         <span>Grand Total</span>
                         <span>
-                            Rp {{ number_format($order->grand_total, 0, ',', '.') }}
+                            Rp {{ number_format($order->total_amount, 0, ',', '.') }}
                         </span>
                     </div>
 
@@ -312,30 +230,6 @@
                     </p>
                 </div>
             @endif
-
-            @if($order->greeting_card)
-                <div class="mt-8 bg-gray-50 p-4 rounded-lg">
-                    <h4 class="text-sm font-semibold text-gray-500 uppercase">
-                        Greeting Card
-                    </h4>
-                    <p class="text-sm text-gray-700 mt-2 whitespace-pre-line">
-                        {{ $order->greeting_card }}
-                    </p>
-                </div>
-            @endif
-
-
-            @if($order->balloon_message)
-                <div class="mt-6 bg-gray-50 p-4 rounded-lg">
-                    <h4 class="text-sm font-semibold text-gray-500 uppercase">
-                        Ucapan di Balon
-                    </h4>
-                    <p class="text-sm text-gray-700 mt-2 whitespace-pre-line">
-                        {{ $order->balloon_message }}
-                    </p>
-                </div>
-            @endif
-
 
             {{-- FOOTER --}}
             <div class="mt-16 pt-6 border-t text-center text-xs text-gray-500 leading-relaxed">
