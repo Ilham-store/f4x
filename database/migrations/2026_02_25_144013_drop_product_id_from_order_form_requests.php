@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->boolean('stock_adjusted')->default(false)->after('status');
+        Schema::table('order_form_requests', function (Blueprint $table) {
+            $table->dropForeign(['product_id']);
+            $table->dropColumn('product_id');
         });
     }
 
@@ -21,8 +22,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('stock_adjusted');
+        Schema::table('order_form_requests', function (Blueprint $table) {
+            $table->foreignId('product_id')
+                ->constrained()
+                ->cascadeOnDelete();
         });
     }
 };

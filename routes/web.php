@@ -1,9 +1,14 @@
 <?php
 
+use App\Http\Controllers\OrderFormController;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+
+
+Route::get('/order-form/{token}', [OrderFormController::class, 'show']);
+Route::post('/order-form/{token}', [OrderFormController::class, 'store']);
 
 Route::get('/', function () {
     return redirect('/admin');
