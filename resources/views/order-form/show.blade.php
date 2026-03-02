@@ -57,11 +57,41 @@
                     @endforeach
                 </div>
 
-                <div class="border-t mt-4 pt-4 flex justify-between font-bold text-lg">
+                {{-- <div class="border-t mt-4 pt-4 flex justify-between font-bold text-lg">
                     <span>Total</span>
                     <span>Rp {{ number_format($total) }}</span>
+                </div> --}}
+
+                <div class="mt-6 border-t pt-4 space-y-2 text-sm">
+
+                    <div class="flex justify-between">
+                        <span>Subtotal Produk</span>
+                        <span>Rp {{ number_format($itemsTotal) }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span>Biaya Tambahan</span>
+                        <span>Rp {{ number_format($form->additional_cost) }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span>Discount</span>
+                        <span>- Rp {{ number_format($form->discount) }}</span>
+                    </div>
+
+                    <div class="flex justify-between font-bold text-lg border-t pt-2">
+                        <span>Total</span>
+                        <span>
+                            Rp {{ number_format(
+    ($itemsTotal + $form->additional_cost) - $form->discount
+) }}
+                        </span>
+                    </div>
+
                 </div>
             </div>
+
+
 
             {{-- FORM --}}
             <form method="POST" action="{{ url('/order-form/' . $form->token) }}">

@@ -19,7 +19,6 @@ class ViewOrder extends ViewRecord
                 ->label('Print Invoice')
                 ->icon('heroicon-o-printer')
                 ->action(fn () => redirect()->route('orders.print', $this->record)),
-            
         ];
     }
 }

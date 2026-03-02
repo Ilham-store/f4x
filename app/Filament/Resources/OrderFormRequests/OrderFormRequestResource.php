@@ -16,9 +16,19 @@ use Filament\Tables\Table;
 
 class OrderFormRequestResource extends Resource
 {
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Management';
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 2;
+    }
+    
     protected static ?string $model = OrderFormRequest::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;
 
     protected static ?string $recordTitleAttribute = 'token';
 

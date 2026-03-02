@@ -20,11 +20,6 @@ class OrderFormRequestsTable
         return $table
             ->columns([
                 
-                TextColumn::make('product.name')
-                ->label('Produk')
-                ->searchable()
-                ->sortable(),
-
                 TextColumn::make('customer_name')
                     ->searchable()
                     ->placeholder('-'),
@@ -50,19 +45,19 @@ class OrderFormRequestsTable
             ])
             ->recordActions([
                 EditAction::make(),
-                Action::make('generate_link')
-                ->label('Generate Link')
-                ->icon('heroicon-o-link')
-                ->visible(fn ($record) => $record->status === 'pending')
-                ->action(function ($record) {
+                // Action::make('generate_link')
+                // ->label('Generate Link')
+                // ->icon('heroicon-o-link')
+                // ->visible(fn ($record) => $record->status === 'pending')
+                // ->action(function ($record) {
 
-                    $record->update([
-                        'token' => Str::uuid(),
-                    ]);
-                }),
+                //     $record->update([
+                //         'token' => Str::uuid(),
+                //     ]);
+                // }),
 
                 Action::make('copy_link')
-                    ->label('Copy Link')
+                    ->label('Akses Link')
                     ->icon('heroicon-o-clipboard')
                     ->visible(fn ($record) => $record->token)
                     ->url(fn ($record) => url('/order-form/' . $record->token))
@@ -79,15 +74,18 @@ class OrderFormRequestsTable
                     
                         $user = Filament::auth()->user();
                     
-                        $total = 0;
+                        $itemsTotal = 0;
                     
                         foreach ($record->items as $item) {
                             if (!$item->product) continue;
-                            $total += $item->product->price * $item->quantity;
+                            $itemsTotal += $item->product->price * $item->quantity;
                         }
+
+                        $subtotal = $itemsTotal + $record->additional_cost;
+                        $grandTotal = $subtotal - $record->discount;
                     
                         $order = Order::create([
-                            'order_number' => 'INV-' . now()->format('YmdHis'),
+                            'order_number' => 'INV-A4F-FRM' . now()->format('YmdHis'),
                             'user_id' => $user->id,
                             'customer_name' => $record->customer_name,
                             'customer_phone' => $record->customer_phone,
@@ -102,20 +100,33 @@ class OrderFormRequestsTable
                             'note' => $record->note,
                             'order_date' => now(),
                             'status' => 'pending',
-                            'total_amount' => $total,
-                            'grand_total' => $total,
+                            'total_amount' => $subtotal,
+                            'grand_total' => $grandTotal,
+                            'additional_cost' => $record->extra_cost,
+                            'discount_type' => 'nominal',
+                            'discount_value' => $record->discount,
                         ]);
                     
                         foreach ($record->items as $item) {
                     
                             if (!$item->product) continue;
-                    
+
+                            $product = $item->product;
+
+                            if ($item->product->stock < $item->quantity) {
+                                throw new \Exception(
+                                    "Stock {$item->product->name} tidak mencukupi."
+                                );
+                            }
+                        
                             $order->items()->create([
-                                'product_id' => $item->product_id,
+                                'product_id' => $product->id,
                                 'quantity' => $item->quantity,
-                                'price' => $item->product->price,
-                                'subtotal' => $item->product->price * $item->quantity,
+                                'price' => $product->price,
+                                'subtotal' => $product->price * $item->quantity,
                             ]);
+                        
+                            $product->decrement('stock', $item->quantity);
                         }
                     
                         $record->update([

@@ -16,7 +16,19 @@ class OrderFormController extends Controller
             abort(404);
         }
 
-        return view('order-form.show', compact('form'));
+        $itemsTotal = 0;
+
+        foreach ($form->items as $item) {
+            if (!$item->product) continue;
+            $itemsTotal += $item->product->price * $item->quantity;
+        }
+
+        return view('order-form.show', [
+            'form' => $form,
+            'itemsTotal' => $itemsTotal,
+        ]);
+
+        // return view('order-form.show', compact('form'));
     }
 
     public function store(Request $request, $token)

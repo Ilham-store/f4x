@@ -23,7 +23,10 @@ class OrderFormRequest extends Model
         "greeting_card",
         "balloon_message",
         "status",
-
+        "additional_cost",
+        "discount",
+        "subtotal",
+        "grand_total",
     ];
 
     public function product()

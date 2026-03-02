@@ -277,7 +277,8 @@ class OrderForm
                                 'percent' => 'Persen (%)',
                                 'nominal' => 'Nominal (Rp)',
                             ])
-                            ->reactive(),
+                            ->reactive()
+                            ->default('nominal'),
                         
                         TextInput::make('discount_value')
                             ->numeric()
