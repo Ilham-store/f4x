@@ -57,8 +57,6 @@ class OrderFormController extends Controller
             'status' => 'submitted',
         ]);
 
-        return redirect()
-            ->back()
-            ->with('success', 'Pesanan berhasil dikirim. Terima kasih 🙏');
+        return view('order-form.success');
     }
 }

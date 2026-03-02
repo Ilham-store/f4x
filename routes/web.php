@@ -6,9 +6,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
-
+// Order Forms
+Route::get('/order-form/success', function () {
+    return view('order-form.success');
+});
 Route::get('/order-form/{token}', [OrderFormController::class, 'show']);
 Route::post('/order-form/{token}', [OrderFormController::class, 'store']);
+
+
 
 Route::get('/', function () {
     return redirect('/admin');
