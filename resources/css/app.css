@@ -1,9 +1,19 @@
 @import "tailwindcss";
+@import "flyonui/variants.css";
+@import "flowbite/src/themes/default";
 
+@plugin "flyonui";
+@plugin "@iconify/tailwind4";
+@plugin "flowbite/plugin";
+
+
+@source "../node_modules/flyonui/flyonui.js";
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
+@source "../../node_modules/flowbite";
+
 
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
