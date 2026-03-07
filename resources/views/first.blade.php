@@ -10,7 +10,7 @@
     <title>Home - A4Florist</title>
 </head>
 
-<body>
+<body class="bg-white">
     {{-- header --}}
     <header class="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
         <div class="mx-auto flex h-16 items-center gap-6 px-4 sm:px-6 lg:px-8">
@@ -112,18 +112,6 @@
         <div class="carousel-pagination absolute bottom-3 end-0 start-0 flex justify-center gap-3"></div>
     </div>
 
-
-    {{-- <section class="hero object-center pt-20 px-4 sm:px-6 lg:px-8">
-        <img alt=""
-            src="https://images.unsplash.com/photo-1631451095765-2c91616fc9e6?auto=format&amp;fit=crop&amp;q=80&amp;w=1160"
-            class="h-56 lg:h-80 w-full rounded-xl object-cover shadow-xl transition group-hover:grayscale-50">
-
-        <div class="pt-5 pl-2">
-            <h3 class="text-xl font-bold text-gray-900 sm:text-3xl">Product Collection</h3>
-        </div>
-    </section> --}}
-
-
     {{-- Informasion --}}
     <div class="relative pt-3 px-4 sm:px-6 lg:px-8">
         <ul class="rounded-xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -182,7 +170,7 @@
                                     Daftar Partner Kurir Kami
                                 </h3>
                                 <button type="button"
-                                    class="text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
+                                    class="text-body dark:text-gray-500 bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
                                     data-modal-hide="daftar-kurir-modal">
                                     <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -193,7 +181,7 @@
                                 </button>
                             </div>
                             <!-- Modal body -->
-                            <div class="space-y-4 md:space-y-6 py-4 md:py-6">
+                            <div class="space-y-4 md:space-y-6 py-4 md:py-6 text-black">
                                 <h3>Pilihan Pengiriman A4Florist</h3>
                                 <ul>
                                     <li>
@@ -260,7 +248,7 @@
                                     Alur Pemesanan (Step-by-Step)
                                 </h3>
                                 <button type="button"
-                                    class="text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
+                                    class="text-body dark:text-gray-500 bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
                                     data-modal-hide="metode-pemesanan-modal">
                                     <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -271,7 +259,7 @@
                                 </button>
                             </div>
                             <!-- Modal body -->
-                            <div class="space-y-4 md:space-y-6 py-4 md:py-6">
+                            <div class="space-y-4 md:space-y-6 py-4 md:py-6 text-black">
                                 <ol type="1" start="1">
                                     <li>
                                         <strong>Pilih Produk Favorit:</strong>
@@ -323,7 +311,7 @@
                 @forelse($products as $product)
                     <x-product.card :product="$product" />
                 @empty
-                    <p class="col-span-full text-center text-gray-500">
+                    <p class="col-span-full text-center text-gray-800">
                         Produk belum tersedia.
                     </p>
                 @endforelse
@@ -370,7 +358,7 @@
                                 Form Konsultasi Gratis
                             </h3>
                             <button type="button"
-                                class="text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
+                                class="text-body dark:text-gray-500 bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
                                 data-modal-hide="konsultasi-gratis-modal">
                                 <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" fill="none" viewBox="0 0 24 24">
@@ -387,7 +375,7 @@
                                     Pelanggan</label>
                                 <div class="relative">
                                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                        <svg class="w-4 h-4 text-body dark:text-white" aria-hidden="true"
+                                        <svg class="w-4 h-4 text-[#AD8331]" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                             viewBox="0 0 24 24">
                                             <path stroke="currentColor" stroke-width="2"
@@ -395,7 +383,7 @@
                                         </svg>
                                     </div>
                                     <input type="text" id="name"
-                                        class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] shadow-xs placeholder:text-body"
+                                        class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] shadow-xs placeholder:text-body dark:placeholder:text-gray-500"
                                         placeholder="Nama Kamu" required>
                                 </div>
                             </div>
@@ -405,7 +393,7 @@
                                 <div class="relative">
                                     <div
                                         class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
-                                        <svg class="w-4 h-4 text-body" aria-hidden="true"
+                                        <svg class="w-4 h-4 text-[#AD8331]" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                             viewBox="0 0 24 24">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -414,17 +402,18 @@
                                         </svg>
                                     </div>
                                     <input type="text" id="phone" aria-describedby="helper-text-explanation"
-                                        class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] shadow-xs placeholder:text-body"
+                                        class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] shadow-xs placeholder:text-body dark:placeholder:text-gray-500"
                                         pattern="(08|628)[0-9]{8,11}" placeholder="081234567890" required />
                                 </div>
-                                <p id="helper-text-explanation" class="mt-2.5 text-sm text-body">Contoh Format :
+                                <p id="helper-text-explanation" class="mt-2.5 text-sm text-body dark:text-gray-500">
+                                    Contoh Format :
                                     081234567890</p>
                             </div>
                             <div class="mb-4">
                                 <label for="message" class="block mb-2.5 text-sm font-medium text-heading">Deskripsikan
                                     Ide Kamu</label>
                                 <textarea id="message" rows="4"
-                                    class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] block w-full p-3.5 shadow-xs placeholder:text-body"
+                                    class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] block w-full p-3.5 shadow-xs placeholder:text-body dark:placeholder:text-gray-500"
                                     placeholder="Tuliskan ide kamu di sini..." required></textarea>
                             </div>
                             <button type="submit"
@@ -467,8 +456,7 @@
                 </div>
             </div>
 
-            <div
-                class="mt-16 border-t border-gray-100 pt-8 sm:flex sm:items-center sm:justify-between lg:mt-24 dark:border-gray-800">
+            <div class="mt-16 border-t border-gray-100 pt-8 sm:flex sm:items-center sm:justify-between lg:mt-24">
                 <ul class="flex flex-wrap justify-center gap-4 text-xs">
                     <li>
                         <p class="text-white transition hover:opacity-75">

@@ -1,5 +1,6 @@
 @php
     $images = $product->images ?? [];
+    $app_url_to_walink = env('APP_URL');
 @endphp
 
 <!DOCTYPE html>
@@ -14,7 +15,7 @@
     <title>{{ $product->name }}</title>
 </head>
 
-<body>
+<body class="bg-white">
     {{-- Header --}}
     <header class="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
         <div class="mx-auto flex h-16 items-center gap-6 px-4 sm:px-6 lg:px-8">
@@ -38,7 +39,7 @@
                         </li>
 
                         <li>
-                            <a class="text-gray-500 transition hover:text-gray-500/75" href="#product"> Product </a>
+                            <a class="text-gray-500 transition hover:text-gray-500/75" href={{ env('APP_URL') . "/#product" }}> Product </a>
                         </li>
 
                         <li class="hidden">
@@ -77,7 +78,7 @@
                         <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu"
                             aria-orientation="vertical" aria-labelledby="nested-dropdown">
                             <li><a class="dropdown-item" href="/">Home</a></li>
-                            <li><a class="dropdown-item" href="#product">Product</a></li>
+                            <li><a class="dropdown-item" href={{ env('APP_URL') . "/#product" }}>Product</a></li>
                             <li><a class="dropdown-item hidden" href="#">Blog</a></li>
                             <li><a class="dropdown-item hidden" href="#">About</a></li>
                         </ul>
@@ -87,9 +88,10 @@
         </div>
     </header>
 
+    {{-- Product View --}}
     <div class="pt-20">
         {{-- Product View --}}
-        <section class="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
+        <section class="py-8 bg-white md:py-16 antialiased">
             <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
                 <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
                     <div id="horizontal-thumbnails" data-carousel='{ "loadingClasses": "opacity-0" }'
@@ -148,7 +150,7 @@
                             <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                                 <li class="inline-flex items-center">
                                     <a href="/"
-                                        class="inline-flex items-center text-sm font-medium text-body hover:text-[#ad8331]">
+                                        class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-[#ad8331]">
                                         <svg class="w-4 h-4 me-1.5" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                             viewBox="0 0 24 24">
@@ -161,20 +163,20 @@
                                 </li>
                                 <li>
                                     <div class="flex items-center space-x-1.5">
-                                        <svg class="w-3.5 h-3.5 rtl:rotate-180 text-body" aria-hidden="true"
+                                        <svg class="w-3.5 h-3.5 rtl:rotate-180 text-gray-600" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                             viewBox="0 0 24 24">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                                 stroke-width="2" d="m9 5 7 7-7 7" />
                                         </svg>
                                         <h5
-                                            class="inline-flex items-center text-sm font-medium text-body hover:text-[#ad8331]">
+                                            class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-[#ad8331]">
                                             Product</h5>
                                     </div>
                                 </li>
                                 <li aria-current="page">
                                     <div class="flex items-center space-x-1.5">
-                                        <svg class="w-3.5 h-3.5 rtl:rotate-180 text-body" aria-hidden="true"
+                                        <svg class="w-3.5 h-3.5 rtl:rotate-180 text-gray-600" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                             viewBox="0 0 24 24">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -188,11 +190,11 @@
                         </nav>
 
 
-                        <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
+                        <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl">
                             {{ $product->name }}
                         </h1>
                         <div class="mt-4 sm:items-center sm:gap-4 sm:flex">
-                            <p class="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
+                            <p class="text-2xl font-extrabold text-gray-900 sm:text-3xl">
                                 {{ $product->price_short }}
                             </p>
                             <span
@@ -212,9 +214,12 @@
                                 </svg>
                                 Add to favorites
                             </a> --}}
-                            <a href="https://wa.me/6282217427939?text={{ urlencode("Halo Admin A4Florist, saya ingin konfirmasi ketersediaan produk berikut:\n\nNama Produk: " . $product->name . "\nHarga Produk : " . $product->price_short . "\nLink Produk : " . env('APP_URL') . "/product/" . $product->slug . "\n\nMohon info apakah stok masih tersedia. Terima kasih!\n\n> Pesan ini otomatis dari Website") }}"
-                                title=""
-                                class="shadow-md text-white text-shadow-lg text-lg gap-2 hover:text-white mt-4 sm:mt-0 bg-[#25D366] hover:bg-[#075E54] focus:ring-4 focus:ring-[#128C7E] font-medium rounded-[10px] px-5 py-2.5 dark:bg-[#075E54] dark:hover:bg-[#075E54] focus:outline-none dark:focus:ring-amber-800 flex items-center justify-center"
+                            <a href="https://wa.me/6282217427939?text={{ urlencode(" Halo Admin A4Florist, saya ingin
+                                konfirmasi ketersediaan produk berikut:\n\nNama Produk: " . $product->name . " \nHarga
+                                Produk : " . $product->price_short . " \nLink Produk : " . $app_url_to_walink . " /product/" . $product->slug . "\n\nMohon info apakah stok masih tersedia. Terima
+                                kasih!\n\n> Pesan ini otomatis dari Website") }}" title="" class="shadow-md text-white text-shadow-lg text-lg gap-2 hover:text-white mt-4 sm:mt-0
+                                bg-[#25D366] hover:bg-[#075E54] focus:ring-4 focus:ring-[#128C7E] font-medium
+                                rounded-[10px] px-5 py-2.5 focus:outline-none  flex items-center justify-center"
                                 role="button" target="_blank">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-whatsapp" viewBox="0 0 16 16">
@@ -225,11 +230,11 @@
                             </a>
                         </div>
 
-                        <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
+                        <hr class="my-6 md:my-8 border-gray-200" />
 
                         <span
                             class="bg-warning-soft text-fg-warning text-sm font-medium px-2 py-1 rounded">{{ $product->category->name }}</span>
-                        <p class="mb-6 text-gray-500 dark:text-gray-400 whitespace-pre-line">
+                        <p class="mb-6 text-gray-700  whitespace-pre-line">
                             {{ $product->description }}
                         </p>
                     </div>
@@ -238,6 +243,7 @@
         </section>
     </div>
 
+    {{-- Footer --}}
     <footer class="bg-[#AD8331]">
         <div class="mx-auto px-4 pt-16 pb-8 sm:px-6 lg:px-8 lg:pt-24">
             <div class="text-center">
@@ -276,7 +282,7 @@
                                 Form Konsultasi Gratis
                             </h3>
                             <button type="button"
-                                class="text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
+                                class="text-body dark:text-gray-500 bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
                                 data-modal-hide="konsultasi-gratis-modal">
                                 <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" fill="none" viewBox="0 0 24 24">
@@ -293,7 +299,7 @@
                                     Pelanggan</label>
                                 <div class="relative">
                                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                        <svg class="w-4 h-4 text-body dark:text-white" aria-hidden="true"
+                                        <svg class="w-4 h-4 text-[#AD8331]" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                             viewBox="0 0 24 24">
                                             <path stroke="currentColor" stroke-width="2"
@@ -301,7 +307,7 @@
                                         </svg>
                                     </div>
                                     <input type="text" id="name"
-                                        class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] shadow-xs placeholder:text-body"
+                                        class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] shadow-xs placeholder:text-body dark:placeholder:text-gray-500"
                                         placeholder="Nama Kamu" required>
                                 </div>
                             </div>
@@ -311,7 +317,7 @@
                                 <div class="relative">
                                     <div
                                         class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
-                                        <svg class="w-4 h-4 text-body" aria-hidden="true"
+                                        <svg class="w-4 h-4 text-[#AD8331]" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                             viewBox="0 0 24 24">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -320,17 +326,18 @@
                                         </svg>
                                     </div>
                                     <input type="text" id="phone" aria-describedby="helper-text-explanation"
-                                        class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] shadow-xs placeholder:text-body"
+                                        class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] shadow-xs placeholder:text-body dark:placeholder:text-gray-500"
                                         pattern="(08|628)[0-9]{8,11}" placeholder="081234567890" required />
                                 </div>
-                                <p id="helper-text-explanation" class="mt-2.5 text-sm text-body">Contoh Format :
+                                <p id="helper-text-explanation" class="mt-2.5 text-sm text-body dark:text-gray-500">
+                                    Contoh Format :
                                     081234567890</p>
                             </div>
                             <div class="mb-4">
                                 <label for="message" class="block mb-2.5 text-sm font-medium text-heading">Deskripsikan
                                     Ide Kamu</label>
                                 <textarea id="message" rows="4"
-                                    class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] block w-full p-3.5 shadow-xs placeholder:text-body"
+                                    class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] block w-full p-3.5 shadow-xs placeholder:text-body dark:placeholder:text-gray-500"
                                     placeholder="Tuliskan ide kamu di sini..." required></textarea>
                             </div>
                             <button type="submit"
@@ -373,8 +380,7 @@
                 </div>
             </div>
 
-            <div
-                class="mt-16 border-t border-gray-100 pt-8 sm:flex sm:items-center sm:justify-between lg:mt-24 dark:border-gray-800">
+            <div class="mt-16 border-t border-gray-100 pt-8 sm:flex sm:items-center sm:justify-between lg:mt-24">
                 <ul class="flex flex-wrap justify-center gap-4 text-xs">
                     <li>
                         <p class="text-white transition hover:opacity-75">
@@ -385,8 +391,6 @@
             </div>
         </div>
     </footer>
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
 </body>
