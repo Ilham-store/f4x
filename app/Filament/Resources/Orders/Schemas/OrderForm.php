@@ -207,27 +207,37 @@ class OrderForm
                                 })
                                 ->rule(function (callable $get) {
                                     return function ($attribute, $value, $fail) use ($get) {
-                            
+                                
                                         $productId = $get('product_id');
-                            
+                                
                                         if (! $productId) return;
-                            
+                                
                                         $product = Product::find($productId);
-                            
-                                        if ($product && $value > $product->stock) {
-                                            $fail("Stok tidak mencukupi. Sisa stok: {$product->stock}");
+                                
+                                        if (! $product) return;
+                                
+                                        // quantity lama dari order item
+                                        $existingQty = (int) ($get('quantity') ?? 0);
+                                
+                                        // stok yang tersedia + qty lama
+                                        $availableStock = $product->stock + $existingQty;
+                                
+                                        if ($value > $availableStock) {
+                                            $fail("Stok tidak mencukupi. Stok tersedia: {$product->stock}");
                                         }
                                     };
-                                }),
-                    
+                                }),                          
+                                
                             TextInput::make('price')
                                 ->numeric()
+                                ->prefix('Rp')
                                 ->required()
                                 ->disabled()
                                 ->dehydrated(),
                     
                             TextInput::make('subtotal')
                                 ->numeric()
+                                ->prefix('Rp')
                                 ->disabled()
                                 ->dehydrated()
                                 ->required(),
@@ -244,15 +254,17 @@ class OrderForm
                     ->schema([
                         TextInput::make('total_amount')
                             ->numeric()
+                            ->prefix('Rp')
                             ->disabled()
                             ->dehydrated()
                             ->required(),
         
                         TextInput::make('extra_cost')
                             ->label('Biaya Tambahan')
+                            ->prefix('Rp')
                             ->numeric()
                             ->default(0)
-                            ->reactive()
+                            ->live(onBlur: true)
                             ->afterStateUpdated(function ($state, callable $set, callable $get) {
                         
                                 $subtotal = (float) $get('total_amount');
@@ -283,7 +295,7 @@ class OrderForm
                         TextInput::make('discount_value')
                             ->numeric()
                             ->default(0)
-                            ->reactive()
+                            ->live(onBlur: true)
                             ->afterStateUpdated(function ($state, callable $set, callable $get) {
                         
                                 $subtotal = (float) $get('total_amount');
@@ -306,6 +318,7 @@ class OrderForm
                         TextInput::make('grand_total')
                             ->label('Grand Total')
                             ->numeric()
+                            ->prefix('Rp')
                             ->disabled()
                             ->dehydrated()
                             ->required(),

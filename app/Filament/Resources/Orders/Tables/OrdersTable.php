@@ -13,6 +13,7 @@ use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class OrdersTable
@@ -21,7 +22,7 @@ class OrdersTable
     {
         return $table
             ->columns([
-                TextColumn::make('order_number')->searchable(),
+                TextColumn::make('order_number')->searchable()->sortable(),
 
                 TextColumn::make('customer_name')->searchable(),
 
@@ -35,11 +36,16 @@ class OrdersTable
                         'danger' => 'cancelled',
                     ]),
 
-                TextColumn::make('order_date'),
-            ])->defaultSort('order_number', 'desc')
+                TextColumn::make('order_date')->sortable(),
+            ])->defaultSort('order_date', 'desc')
             
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->options([
+                            'pending' => 'Pending',
+                            'paid' => 'Paid',
+                            'cancelled' => 'Cancelled',
+                        ]),
             ])
             ->recordActions([
                 ViewAction::make(),

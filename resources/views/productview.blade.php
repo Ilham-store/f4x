@@ -1,6 +1,6 @@
 @php
     $images = $product->images ?? [];
-    $app_url_to_walink = env('APP_URL');
+    $app_url_to_walink = "https://a4florist.web.id";
 @endphp
 
 <!DOCTYPE html>
@@ -103,7 +103,7 @@
 
                                     <div class="carousel-slide">
                                         <div class="flex size-full justify-center">
-                                            <img src="{{ route('product.image', basename($image)) }}"
+                                            <img loading="lazy" src="{{ route('product.image', basename($image)) }}"
                                                 class="size-full object-contain" alt="{{ $product->name }}">
                                         </div>
                                     </div>
@@ -117,7 +117,7 @@
                                     class="carousel-pagination bg-base-100 absolute bottom-0 end-0 start-0 z-1 h-1/4 gap-2 flex justify-center gap-2 overflow-x-auto pt-2">
                                     @foreach($product->images as $image)
 
-                                        <img src="{{ route('product.image', basename($image)) }}"
+                                        <img loading="lazy" src="{{ route('product.image', basename($image)) }}"
                                             class="carousel-pagination-item carousel-active:opacity-100 grow object-cover opacity-30"
                                             alt="{{ $product->name }}">
 
@@ -214,10 +214,8 @@
                                 </svg>
                                 Add to favorites
                             </a> --}}
-                            <a href="https://wa.me/6282217427939?text={{ urlencode(" Halo Admin A4Florist, saya ingin
-                                konfirmasi ketersediaan produk berikut:\n\nNama Produk: " . $product->name . " \nHarga
-                                Produk : " . $product->price_short . " \nLink Produk : " . $app_url_to_walink . " /product/" . $product->slug . "\n\nMohon info apakah stok masih tersedia. Terima
-                                kasih!\n\n> Pesan ini otomatis dari Website") }}" title="" class="shadow-md text-white text-shadow-lg text-lg gap-2 hover:text-white mt-4 sm:mt-0
+                            <a href="https://wa.me/6282217427939?text={{ urlencode(" Halo Admin A4Florist, saya ingin konfirmasi ketersediaan produk berikut:\n\nNama Produk: " . $product->name . " \nHarga Produk : " . $product->price_short . " \nLink Produk : " . $app_url_to_walink . "/product/" . $product->slug . "\n\nMohon info apakah stok masih tersedia. Terima kasih!\n\n> Pesan ini otomatis dari Website") }}"
+                                title="" class="shadow-md text-white text-shadow-lg text-lg gap-2 hover:text-white mt-4 sm:mt-0
                                 bg-[#25D366] hover:bg-[#075E54] focus:ring-4 focus:ring-[#128C7E] font-medium
                                 rounded-[10px] px-5 py-2.5 focus:outline-none  flex items-center justify-center"
                                 role="button" target="_blank">
@@ -282,7 +280,7 @@
                                 Form Konsultasi Gratis
                             </h3>
                             <button type="button"
-                                class="text-body dark:text-gray-500 bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
+                                class="text-gray-500 bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
                                 data-modal-hide="konsultasi-gratis-modal">
                                 <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" fill="none" viewBox="0 0 24 24">
@@ -307,7 +305,7 @@
                                         </svg>
                                     </div>
                                     <input type="text" id="name"
-                                        class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] shadow-xs placeholder:text-body dark:placeholder:text-gray-500"
+                                        class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] shadow-xs placeholder:text-gray-500"
                                         placeholder="Nama Kamu" required>
                                 </div>
                             </div>
@@ -326,10 +324,10 @@
                                         </svg>
                                     </div>
                                     <input type="text" id="phone" aria-describedby="helper-text-explanation"
-                                        class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] shadow-xs placeholder:text-body dark:placeholder:text-gray-500"
+                                        class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] shadow-xs placeholder:text-gray-500"
                                         pattern="(08|628)[0-9]{8,11}" placeholder="081234567890" required />
                                 </div>
-                                <p id="helper-text-explanation" class="mt-2.5 text-sm text-body dark:text-gray-500">
+                                <p id="helper-text-explanation" class="mt-2.5 text-sm text-gray-500">
                                     Contoh Format :
                                     081234567890</p>
                             </div>
@@ -337,7 +335,7 @@
                                 <label for="message" class="block mb-2.5 text-sm font-medium text-heading">Deskripsikan
                                     Ide Kamu</label>
                                 <textarea id="message" rows="4"
-                                    class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] block w-full p-3.5 shadow-xs placeholder:text-body dark:placeholder:text-gray-500"
+                                    class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] block w-full p-3.5 shadow-xs placeholder:text-gray-500"
                                     placeholder="Tuliskan ide kamu di sini..." required></textarea>
                             </div>
                             <button type="submit"
@@ -361,13 +359,13 @@
                                 // 3. Susun template pesan (Gunakan backticks agar format baris baru terjaga)
                                 const text = `Halo Admin A4Florist, saya ingin Konsultasi Gratis:
                         
-                        Nama: ${name}
-                        Nomor WA: ${phone}
-                        Deskripsi Ide: ${message}
+Nama: ${name}
+Nomor WA: ${phone}
+Deskripsi Ide: ${message}
                         
-                        Mohon bantuannya untuk mewujudkan ide rangkaian bunga saya. Terima kasih!
+Mohon bantuannya untuk mewujudkan ide rangkaian bunga saya. Terima kasih!
                         
-                        > Pesan otomatis dari Website`;
+> Pesan otomatis dari Website`;
 
                                 // 4. Encode pesan agar aman untuk URL
                                 const encodedText = encodeURIComponent(text);
@@ -391,7 +389,6 @@
             </div>
         </div>
     </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
 </body>
 

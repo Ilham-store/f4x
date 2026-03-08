@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/images/a4florist_logo.svg" type="image/svg+xml">
+    @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
+    <title>Maintenance - A4Florist</title>
+</head>
+
+<body class="h-screen bg-white">
+
+    <section class="pt-40 bg-white">
+        <div class="mx-auto max-w-screen-md text-center">
+            <svg class="mx-auto mb-4 w-10 h-10 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path fill="currentColor"
+                    d="M331.8 224.1c28.29 0 54.88 10.99 74.86 30.97l19.59 19.59c40.01-17.74 71.25-53.3 81.62-96.65c5.725-23.92 5.34-47.08 .2148-68.4c-2.613-10.88-16.43-14.51-24.34-6.604l-68.9 68.9h-75.6V97.2l68.9-68.9c7.912-7.912 4.275-21.73-6.604-24.34c-21.32-5.125-44.48-5.51-68.4 .2148c-55.3 13.23-98.39 60.22-107.2 116.4C224.5 128.9 224.2 137 224.3 145l82.78 82.86C315.2 225.1 323.5 224.1 331.8 224.1zM384 278.6c-23.16-23.16-57.57-27.57-85.39-13.9L191.1 158L191.1 95.99l-127.1-95.99L0 63.1l96 127.1l62.04 .0077l106.7 106.6c-13.67 27.82-9.251 62.23 13.91 85.39l117 117.1c14.62 14.5 38.21 14.5 52.71-.0016l52.75-52.75c14.5-14.5 14.5-38.08-.0016-52.71L384 278.6zM227.9 307L168.7 247.9l-148.9 148.9c-26.37 26.37-26.37 69.08 0 95.45C32.96 505.4 50.21 512 67.5 512s34.54-6.592 47.72-19.78l119.1-119.1C225.5 352.3 222.6 329.4 227.9 307zM64 472c-13.25 0-24-10.75-24-24c0-13.26 10.75-24 24-24S88 434.7 88 448C88 461.3 77.25 472 64 472z" />
+            </svg>
+            <h1
+                class="pt-5 mb-4 text-4xl font-bold tracking-tight leading-none text-gray-900 lg:mb-6 md:text-5xl xl:text-6xl ">
+                Under Maintenance</h1>
+            <p class="pt-3 font-light text-gray-500 md:text-lg xl:text-xl ">Mohon Maaf atas
+                Ketidaknyamanannya. Administrator perusahaan sedang melakukan pemeliharaan terjadwal. Silahkan
+                Konfirmasi ke Kontak Dibawah
+                Ini.</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="px-4 mx-auto max-w-screen-sm">
+            <ul class="my-6 space-y-3">
+                <li>
+                    <a href="https://wa.me/6282217427939"
+                        class="flex items-center p-3 text-lg font-semibold text-heading rounded-base bg-neutral-secondary-medium hover:bg-neutral-tertiary-medium group"
+                        target="_blank">
+                        <img src="/images/WhatsApp.svg" alt="WhatsApp Logo" class="h-8">
+                        <span class="flex-1 ms-3 whitespace-nowrap">WhatsApp</span>
+                        <span
+                            class="bg-neutral-primary-soft border border-default-medium text-heading text-xs font-medium px-1.5 py-0.5 rounded-sm">Popular</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/a4florist"
+                        class="flex items-center p-3 text-lg font-semibold text-heading rounded-base bg-neutral-secondary-medium hover:bg-neutral-tertiary-medium group"
+                        target="_blank">
+                        <img src="/images/Instagram.svg" alt="Instagram Logo" class="h-7">
+                        <span class="flex-1 ms-3 whitespace-nowrap">Instagram</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+</body>
+
+</html>

@@ -77,5 +77,38 @@
             </div>
         </x-filament::card>
 
+
+        <x-filament::card>
+
+            <h2 class="text-lg font-bold mb-3">Maintenance Mode</h2>
+
+            <div class="space-y-2 text-sm">
+
+                <div class="flex justify-between">
+                    <span>Website Status</span>
+                    @if(app()->isDownForMaintenance())
+                        <span class="text-red-600">Maintenance Active</span>
+                    @else
+                        <span class="text-green-600">Website Online</span>
+                    @endif
+                </div>
+
+            </div>
+
+            <div class="space-y-2 text-sm pt-2">
+
+                <div class="flex justify-between">
+                    <span>Bypass URL in Maintenance:</span>
+                    <p>
+                        <a href="{{ url('/admin-bypass-2104') }}" class="text-blue-800 font-semibold">
+                            {{ url('/admin-bypass-2104') }}
+                        </a>
+                    </p>
+                </div>
+
+            </div>
+
+        </x-filament::card>
+
     </div>
 </x-filament-panels::page>

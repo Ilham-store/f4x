@@ -4,6 +4,8 @@ namespace App\Filament\Pages;
 
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
+use Filament\Facades\Filament;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Artisan;
 
@@ -35,24 +37,50 @@ class SystemManager extends Page
                     ->icon('heroicon-o-arrow-path')
                     ->requiresConfirmation()
                     ->action(function () {
-    
-                        exec('git pull origin main');
-    
-                        Artisan::call('migrate', [
-                            '--force' => true
-                        ]);
-    
-                        Artisan::call('optimize:clear');
-                        Artisan::call('optimize');
-                    })
-                    ->successNotificationTitle('App Updated'),
-    
+
+                        try {
+                    
+                            exec('git pull origin main 2>&1', $output);
+                    
+                            Artisan::call('migrate', [
+                                '--force' => true
+                            ]);
+                    
+                            Artisan::call('optimize:clear');
+                            Artisan::call('optimize');
+                    
+                            Notification::make()
+                                ->title('App Updated')
+                                ->body(implode("\n", $output))
+                                ->success()
+                                ->send();
+                    
+                        } catch (\Throwable $e) {
+                    
+                            Notification::make()
+                                ->title('Update Failed')
+                                ->body($e->getMessage())
+                                ->danger()
+                                ->send();
+                    
+                        }
+                    
+                    }),
+
                 Action::make('config_cache')
                     ->label('Config Cache')
                     ->icon('heroicon-o-bolt')
                     ->requiresConfirmation()
-                    ->action(fn () => Artisan::call('config:cache'))
-                    ->successNotificationTitle('Config Cached'),
+                    ->action(function () {
+
+                        Artisan::call('config:cache');
+
+                        Notification::make()
+                            ->title('Config Cached')
+                            ->body(Artisan::output())
+                            ->success()
+                            ->send();
+                    }),
     
                 Action::make('route_cache')
                     ->label('Route Cache')
@@ -81,34 +109,79 @@ class SystemManager extends Page
                         Artisan::call('view:clear');
     
                     })
-                    ->successNotificationTitle('Clear Cached Succees'),
+                    ->successNotificationTitle('Clear Cached Success'),
     
                 Action::make('optimize')
                     ->label('Optimize')
                     ->icon('heroicon-o-rocket-launch')
                     ->requiresConfirmation()
                     ->action(fn () => Artisan::call('optimize'))
-                    ->successNotificationTitle('Optimize Succees'),
+                    ->successNotificationTitle('Optimize Success'),
     
                 Action::make('optimize_clear')
                     ->label('Optimize Clear')
                     ->icon('heroicon-o-x-circle')
                     ->requiresConfirmation()
                     ->action(fn () => Artisan::call('optimize:clear'))
-                    ->successNotificationTitle('Optimize Clear Succees'),
+                    ->successNotificationTitle('Optimize Clear Success'),
     
                 Action::make('storage_link')
                     ->label('Storage Link')
                     ->icon('heroicon-o-link')
                     ->requiresConfirmation()
                     ->action(fn () => Artisan::call('storage:link'))
-                    ->successNotificationTitle('Storage Link Succees'),
+                    ->successNotificationTitle('Storage Link Success'),
             ])->label('System Tools')
             ->icon('heroicon-o-wrench-screwdriver')
             ->extraAttributes([
                 'class' => 'flex flex-wrap gap-2'
             ])
             ->button(),
+            
+            ActionGroup::make([
+                Action::make('maintenance_on')
+                ->label('Enable Maintenance')
+                ->color('danger')
+                ->icon('heroicon-o-pause-circle')
+                ->requiresConfirmation()
+                ->action(function () {
+            
+                    $secret = 'admin-bypass-2104';
+            
+                    Artisan::call('down', [
+                        '--secret' => $secret,
+                    ]);
+                    
+                    Notification::make()
+                        ->title('Maintenance Enabled')
+                        ->body('Bypass URL: ' . url($secret))
+                        ->success()
+                        ->send();
+                        
+                    return redirect()->away(url('/'.$secret))->away(url("/admin/login"))->away(url("/admin/system-manager"));
+                    
+                }),
+
+                Action::make('maintenance_off')
+                ->label('Disable Maintenance')
+                ->color('success')
+                ->icon('heroicon-o-play-circle')
+                ->requiresConfirmation()
+                ->action(function () {
+            
+                    Artisan::call('up');
+            
+                    Notification::make()
+                        ->title('Maintenance Disabled')
+                        ->success()
+                        ->send();
+                }),
+                    
+            ])->label('Maintenance Mode')
+            ->icon('heroicon-o-link-slash')
+            ->extraAttributes([
+                'class' => 'flex flex-wrap gap-2'
+            ])->button(),
 
         ];
     }
@@ -123,6 +196,11 @@ class SystemManager extends Page
             'app_url' => config('app.url'),
             'app_version' => config('app.version', 'v1.0.0'),
         ];
+    }
+
+    public static function canAccess(): bool
+    {
+        return Filament::auth()->user()?->hasRole('admin') ?? false;
     }
 
 }

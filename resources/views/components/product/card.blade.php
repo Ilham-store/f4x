@@ -1,7 +1,7 @@
 <li class="max-sm:flex">
     <section class="block border border-[#AD8331] rounded-lg p-4 shadow-sm hover:shadow-md transition bg-white">
 
-        <img src="{{ route('product.image', basename($product->first_image)) }}"
+        <img loading="lazy" src="{{ route('product.image', basename($product->first_image)) }}"
             class="h-56 max-md:h-40 w-full rounded-md object-cover" alt="{{ $product->name }}">
 
         <div class="mt-3 space-y-2">

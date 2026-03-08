@@ -10,6 +10,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class ProductsTable
@@ -34,10 +35,17 @@ class ProductsTable
 
                 IconColumn::make('is_active')
                     ->boolean(),
-            ])
+
+                TextColumn::make('created_at')
+                    ->dateTime('d M Y H:i')
+                    ->sortable(),
+            ])->defaultSort('created_at', 'desc')
+
             ->filters([
                 SelectFilter::make('Kategori')
-                    ->relationship('category', 'name')
+                    ->relationship('category', 'name'),
+                TernaryFilter::make('is_active')
+
             ])
             ->recordActions([
                 EditAction::make(),
