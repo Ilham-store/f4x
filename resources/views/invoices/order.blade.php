@@ -48,7 +48,7 @@
 
 <body class="bg-gray-100 py-10 print:bg-white print:py-0">
 
-    <div class="relative max-w-4xl mx-auto shadow-xl rounded-2xl
+    <div id="invoice-card" class="relative max-w-4xl mx-auto shadow-xl rounded-2xl
             print:shadow-none print:rounded-none print:max-w-full">
 
         <div class="absolute inset-0 bg-white rounded-2xl print:rounded-none"></div>
@@ -370,68 +370,6 @@
             </svg>
         </button>
     </div>
-
-    <div class="pt-5 flex flex-row max-w-4xl mx-auto w-full rounded-2xl
-    no-print print:hidden gap-2.5">
-        <button onclick="shareAsPdf()" id="shareBtn"
-            class="basis-[100%] px-4 py-4 bg-green-600 text-white text-md font-semibold rounded-lg hover:bg-green-700 inline-flex items-center justify-center gap-2">
-            <span id="shareText">Bagikan PDF (*ujicoba)</span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
-            </svg>
-        </button>
-    </div>
-
-    {{-- scritp share invoice --}}
-    <script>
-        async function shareAsPdf() {
-            const element = document.querySelector('.relative.max-w-4xl.mx-auto'); // Target div invoice
-            const shareBtn = document.getElementById('shareBtn');
-            const shareText = document.getElementById('shareText');
-
-            // Beri feedback loading
-            shareText.innerText = "Memproses...";
-            shareBtn.disabled = true;
-
-            const opt = {
-                margin: 0,
-                filename: 'Invoice-{{ $order->order_number }}.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            try {
-                // 1. Generate PDF sebagai Blob
-                const blob = await html2pdf().set(opt).from(element).output('blob');
-                const file = new File([blob], opt.filename, { type: 'application/pdf' });
-
-                // 2. Gunakan Web Share API (Agar Android mengirim FILE, bukan LINK)
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share({
-                        files: [file],
-                        title: 'Invoice A4Florist',
-                        text: 'Berikut adalah invoice pesanan Anda.',
-                    });
-                } else {
-                    // Fallback jika browser tidak dukung share (seperti Desktop)
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = opt.filename;
-                    a.click();
-                }
-            } catch (error) {
-                alert('Gagal membagikan PDF. Silakan gunakan tombol Print.');
-                console.error(error);
-            } finally {
-                shareText.innerText = "Bagikan PDF";
-                shareBtn.disabled = false;
-            }
-        }
-    </script>
 </body>
 
 </html>

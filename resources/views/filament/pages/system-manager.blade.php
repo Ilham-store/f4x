@@ -15,9 +15,23 @@
 
             <div class="space-y-2 text-sm">
 
-                <div class="flex justify-between">
+                <div class="flex justify-between items-center">
                     <span>App Version</span>
-                    <span class="font-semibold">{{ $app_version }}</span>
+                    <div class="flex items-center gap-2">
+                        @if($has_update)
+                            <span
+                                class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+
+                                <p class="text-sm whitespace-nowrap animate-pulse font-semibold">Update Available!</p>
+                            </span>
+                        @endif
+                        <span class="font-semibold">{{ $app_version }}</span>
+                    </div>
                 </div>
 
                 <div class="flex justify-between">

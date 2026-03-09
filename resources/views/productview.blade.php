@@ -79,6 +79,12 @@
                             aria-orientation="vertical" aria-labelledby="nested-dropdown">
                             <li><a class="dropdown-item" href="/">Home</a></li>
                             <li><a class="dropdown-item" href={{ env('APP_URL') . "/#product" }}>Product</a></li>
+                            <li class="sm:flex sm:gap-4">
+                                <a class="dropdown-item rounded-md bg-amber-100 px-5 py-2.5 text-sm font-medium text-[#AD8331] transition hover:text-amber-600/75"
+                                    href="/admin">
+                                    Login
+                                </a>
+                            </li>
                             <li><a class="dropdown-item hidden" href="#">Blog</a></li>
                             <li><a class="dropdown-item hidden" href="#">About</a></li>
                         </ul>

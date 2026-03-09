@@ -136,7 +136,8 @@ class SystemManager extends Page
             ->extraAttributes([
                 'class' => 'flex flex-wrap gap-2'
             ])
-            ->button(),
+            ->button()
+            ->color('warning'),
             
             ActionGroup::make([
                 Action::make('maintenance_on')
@@ -181,13 +182,29 @@ class SystemManager extends Page
             ->icon('heroicon-o-link-slash')
             ->extraAttributes([
                 'class' => 'flex flex-wrap gap-2'
-            ])->button(),
+            ])->button()
+            ->color('danger'),
 
         ];
     }
 
     public function getViewData(): array
     {
+
+        // Cek apakah ada update dari Git
+        $hasUpdate = false;
+        try {
+            // Mengambil info dari git fetch tanpa menarik datanya (hanya cek)
+            exec('git fetch origin main');
+            // Membandingkan commit lokal dengan remote
+            $local = shell_exec('git rev-parse HEAD');
+            $remote = shell_exec('git rev-parse origin/main');
+            
+            $hasUpdate = trim($local) !== trim($remote);
+        } catch (\Throwable $e) {
+            $hasUpdate = false;
+        }
+
         return [
             'php_version' => phpversion(),
             'laravel_version' => app()->version(),
@@ -195,12 +212,31 @@ class SystemManager extends Page
             'app_debug' => config('app.debug'),
             'app_url' => config('app.url'),
             'app_version' => config('app.version', 'v1.0.0'),
+            'has_update' => $hasUpdate,
         ];
     }
 
     public static function canAccess(): bool
     {
         return Filament::auth()->user()?->hasRole('admin') ?? false;
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        try {
+            exec('git fetch origin main');
+            $local = shell_exec('git rev-parse HEAD');
+            $remote = shell_exec('git rev-parse origin/main');
+            
+            return trim($local) !== trim($remote) ? 'NEW' : null;
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'danger';
     }
 
 }
