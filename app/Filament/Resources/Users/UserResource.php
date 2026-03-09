@@ -10,6 +10,7 @@ use App\Filament\Resources\Users\Tables\UsersTable;
 use App\Models\User;
 use BackedEnum;
 use Filament\Facades\Filament;
+use Filament\Panel;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -58,6 +59,12 @@ class UserResource extends Resource
             'create' => CreateUser::route('/create'),
             'edit' => EditUser::route('/{record}/edit'),
         ];
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+//        return str_ends_with($this->email, '@icloud.com');
     }
 
     public static function canViewAny(): bool

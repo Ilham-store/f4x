@@ -20,7 +20,10 @@ class ProductsTable
         return $table
             ->columns([
                 ImageColumn::make('images')
-                ->getStateUsing(fn ($record) => is_array($record->images) ? ($record->images[0] ?? null) : null),
+                ->getStateUsing(fn ($record) => is_array($record->images) ? ($record->images[0] ?? null) : null)
+                ->extraImgAttributes([
+                    'loading' => 'lazy',
+                ]),
 
                 TextColumn::make('name')
                     ->searchable(),
