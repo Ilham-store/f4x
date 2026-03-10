@@ -15,7 +15,7 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
-    'version' => env('APP_VERSION', 'v1.0.0'),
+    'version' => exec('git describe --tags --abbrev=0') ?: '1.0.0',
 
     /*
     |--------------------------------------------------------------------------
