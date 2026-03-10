@@ -15,6 +15,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\HtmlString;
 
 class OrderResource extends Resource
 {
@@ -27,6 +28,23 @@ class OrderResource extends Resource
     {
         return 1;
     }
+    
+    public static function getNavigationBadge(): ?string
+    {
+        $pending = static::getModel()::where('status', 'pending')->count();
+        $paid = static::getModel()::where('status', 'paid')->count();
+        $cancelled = static::getModel()::where('status', 'cancelled')->count();
+
+        // Menampilkan format P:0 | S:0 | C:0
+        return "S: {$paid} | P: {$pending} | C: {$cancelled}";
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        // Mengunci warna ke 'warning' (Amber) agar seragam
+        return 'warning';
+    }
+    
     protected static ?string $model = Order::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedInboxArrowDown;
@@ -68,31 +86,31 @@ class OrderResource extends Resource
     }
 
     public static function recalculateTotal(callable $set, callable $get): void
-{
-    $items = $get('items') ?? [];
+    {
+        $items = $get('items') ?? [];
 
-    $subtotalItems = collect($items)
-        ->sum(fn ($item) => $item['subtotal'] ?? 0);
+        $subtotalItems = collect($items)
+            ->sum(fn ($item) => $item['subtotal'] ?? 0);
 
-    $extraCost = $get('extra_cost') ?? 0;
-    $discountType = $get('discount_type');
-    $discountValue = $get('discount_value') ?? 0;
+        $extraCost = $get('extra_cost') ?? 0;
+        $discountType = $get('discount_type');
+        $discountValue = $get('discount_value') ?? 0;
 
-    $discountAmount = 0;
+        $discountAmount = 0;
 
-    if ($discountType === 'percent') {
-        $discountAmount = $subtotalItems * ($discountValue / 100);
-    } elseif ($discountType === 'nominal') {
-        $discountAmount = $discountValue;
+        if ($discountType === 'percent') {
+            $discountAmount = $subtotalItems * ($discountValue / 100);
+        } elseif ($discountType === 'nominal') {
+            $discountAmount = $discountValue;
+        }
+
+        $grandTotal = $subtotalItems + $extraCost - $discountAmount;
+
+        if ($grandTotal < 0) {
+            $grandTotal = 0;
+        }
+
+        $set('total_amount', $subtotalItems);
+        $set('grand_total', $grandTotal);
     }
-
-    $grandTotal = $subtotalItems + $extraCost - $discountAmount;
-
-    if ($grandTotal < 0) {
-        $grandTotal = 0;
-    }
-
-    $set('total_amount', $subtotalItems);
-    $set('grand_total', $grandTotal);
-}
 }

@@ -17,6 +17,7 @@ class ViewOrder extends ViewRecord
             EditAction::make(),
             Action::make('print')
                 ->label('Print Invoice')
+                ->color('success')
                 ->icon('heroicon-o-printer')
                 ->action(fn () => redirect()->route('orders.print', $this->record)),
         ];

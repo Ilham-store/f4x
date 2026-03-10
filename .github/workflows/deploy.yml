@@ -1,0 +1,42 @@
+name: Production Deployment
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # --- TAHAP 1: BUILD DI GITHUB ---
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install Composer Dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      # --- TAHAP 2: LOGIN KE SERVER & UPDATE ---
+      - name: Execute Remote SSH Commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd a4floristdotwebdotid/
+            
+            git fetch origin main
+            git reset --hard origin/main
+            
+            php artisan migrate --force
+            php artisan optimize
+            php artisan filament:upgrade
+            
+            echo "✅ Project v${{ github.ref_name }} Berhasil di-deploy!"

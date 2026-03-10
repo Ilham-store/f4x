@@ -24,7 +24,7 @@ class CategoriesTable
                 ->boolean(),
 
             TextColumn::make('created_at')
-                ->dateTime(),
+                ->dateTime('d M Y H:i'),
             ])
             ->filters([
                 TernaryFilter::make('is_active'),
@@ -37,6 +37,6 @@ class CategoriesTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])->defaultSort('created_at', 'desc');
     }
 }

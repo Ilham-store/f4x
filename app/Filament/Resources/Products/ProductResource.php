@@ -27,6 +27,26 @@ class ProductResource extends Resource
     {
         return 1;
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        // Mengambil total semua produk yang terdaftar
+        $totalProducts = static::getModel()::count();
+
+        // Jika tidak ada produk sama sekali, badge tidak akan muncul
+        if ($totalProducts === 0) {
+            return null;
+        }
+
+        // Mengembalikan angka total produk sebagai string
+        return (string) $totalProducts;
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        // Mengatur warna badge menjadi Amber/Kuning (warning)
+        return 'warning';
+    }
     
     protected static ?string $model = Product::class;
 

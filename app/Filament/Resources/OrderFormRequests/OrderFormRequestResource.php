@@ -25,6 +25,28 @@ class OrderFormRequestResource extends Resource
     {
         return 2;
     }
+
+
+    public static function getNavigationBadge(): ?string
+    {
+        // Menghitung jumlah masing-masing status
+        $pending = static::getModel()::where('status', 'pending')->count();
+        $submitted = static::getModel()::where('status', 'submitted')->count();
+
+        // Jika keduanya nol, badge tidak akan muncul sama sekali
+        if ($pending === 0 && $submitted === 0) {
+            return null;
+        }
+
+        // Menampilkan format "P: 5 | S: 3"
+        return "S: {$submitted} | P: {$pending}";
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        // Mengunci warna ke Amber (warning) sesuai permintaan Anda
+        return 'warning';
+    }
     
     protected static ?string $model = OrderFormRequest::class;
 
