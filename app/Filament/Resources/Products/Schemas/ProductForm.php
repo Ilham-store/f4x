@@ -24,6 +24,8 @@ class ProductForm
                     ->directory('products')
                     ->reorderable()
                     ->nullable()
+                    ->optimize('webp', 70)
+                    ->resize(60)
                     ->columnSpanFull(),
 
                 TextInput::make('name')
@@ -40,34 +42,33 @@ class ProductForm
                         $set('slug', Str::slug($state));
                     })
                     ->unique(ignoreRecord: true)
-                    ->helperText('Slug otomatis diformat: huruf kecil & strip.'),                    
-                    
-                    Textarea::make('description')
+                    ->helperText('Slug otomatis diformat: huruf kecil & strip.'),
+
+                Textarea::make('description')
                     ->columnSpanFull()
                     ->rows(5),
 
-                    TextInput::make('price')
-                        ->numeric()
-                        ->required()
-                        ->prefix('Rp'),
+                TextInput::make('price')
+                    ->numeric()
+                    ->required()
+                    ->prefix('Rp'),
 
-                    TextInput::make('stock')
-                        ->numeric()
-                        ->required(),
-                    
-                    Select::make('category_id')
+                TextInput::make('stock')
+                    ->numeric()
+                    ->required(),
+
+                Select::make('category_id')
                     ->relationship('category', 'name', modifyQueryUsing: fn ($query) => $query->where('is_active', true))
                     ->required()
                     ->searchable()
                     ->preload(),
-                    
 
-                    ToggleButtons::make('is_active')
-                        ->label('Is Active ?')
-                        ->boolean()
-                        ->required()
-                        ->inline()
-                        ->default(true),
+                ToggleButtons::make('is_active')
+                    ->label('Is Active ?')
+                    ->boolean()
+                    ->required()
+                    ->inline()
+                    ->default(true),
 
             ]);
     }
