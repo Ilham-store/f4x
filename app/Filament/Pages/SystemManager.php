@@ -191,6 +191,12 @@ class SystemManager extends Page
     public function getViewData(): array
     {
 
+        // Cek apakah file version.txt ada, jika tidak pakai default config
+        $versionPath = base_path('version.txt');
+        $currentVersion = file_exists($versionPath) 
+            ? trim(file_get_contents($versionPath)) 
+            : config('app.version', 'v1.0.0');
+
         // Cek apakah ada update dari Git
         $hasUpdate = false;
         try {
@@ -211,7 +217,7 @@ class SystemManager extends Page
             'app_env' => app()->environment(),
             'app_debug' => config('app.debug'),
             'app_url' => config('app.url'),
-            'app_version' => config('app.version', 'v1.0.0'),
+            'app_version' => $currentVersion,
             'has_update' => $hasUpdate,
         ];
     }
@@ -223,15 +229,17 @@ class SystemManager extends Page
 
     public static function getNavigationBadge(): ?string
     {
-        try {
-            exec('git fetch origin main');
-            $local = shell_exec('git rev-parse HEAD');
-            $remote = shell_exec('git rev-parse origin/main');
-            
-            return trim($local) !== trim($remote) ? 'NEW' : null;
-        } catch (\Throwable $e) {
-            return null;
-        }
+        // Gunakan cache agar tidak menjalankan git fetch terlalu sering di sidebar
+        return cache()->remember('git_update_badge', 3600, function () {
+            try {
+                exec('git fetch origin main');
+                $local = shell_exec('git rev-parse HEAD');
+                $remote = shell_exec('git rev-parse origin/main');
+                return trim($local) !== trim($remote) ? 'NEW' : null;
+            } catch (\Throwable $e) {
+                return null;
+            }
+        });
     }
 
     public static function getNavigationBadgeColor(): ?string
