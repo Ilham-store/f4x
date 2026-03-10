@@ -31,11 +31,12 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd a4floristdotwebdotid/
-            
+
+            git fetch --all --tags
             git fetch origin main
             git reset --hard origin/main
 
-            git describe --tags --abbrev=0 > version.txt
+            git tag -l --sort=-v:refname | head -n 1 > version.txt
             
             php artisan migrate --force
             php artisan optimize
