@@ -36,7 +36,7 @@ class OrdersTable
                         'danger' => 'cancelled',
                     ]),
 
-                TextColumn::make('order_date')->sortable(),
+                TextColumn::make('order_date')->dateTime('d M Y')->sortable(),
             ])->defaultSort('order_date', 'desc')
             
             ->filters([

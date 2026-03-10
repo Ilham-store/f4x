@@ -23,9 +23,11 @@ class CategoriesTable
             IconColumn::make('is_active')
                 ->boolean(),
 
-            TextColumn::make('created_at')
-                ->dateTime('d M Y H:i'),
-            ])
+                TextColumn::make('created_at')
+                    ->dateTime('d M Y H:i')
+                    ->sortable(),
+
+            ])->defaultSort('created_at', 'desc')
             ->filters([
                 TernaryFilter::make('is_active'),
             ])
@@ -37,6 +39,6 @@ class CategoriesTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ])->defaultSort('created_at', 'desc');
+            ]);
     }
 }

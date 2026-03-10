@@ -8,4 +8,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateOrderFormRequest extends CreateRecord
 {
     protected static string $resource = OrderFormRequestResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

@@ -29,8 +29,10 @@ class UsersTable
                     ->label('Role'),
 
                 TextColumn::make('created_at')
-                    ->dateTime(),
-            ])
+                    ->dateTime('d M Y H:i')
+                    ->sortable(),
+
+            ])->defaultSort('created_at', 'desc')
             ->filters([
                 SelectFilter::make('Roles')
                     ->relationship('roles', 'name')
