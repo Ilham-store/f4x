@@ -101,14 +101,14 @@
                     <div class="grid grid-cols-2 gap-6">
                         <div class="max-md:col-span-2">
                             <label for="nama_lengkap" class="block mb-2.5 text-sm font-medium text-heading">Nama
-                                Lengkap</label>
+                                Lengkap<span class="text-red-500">*</span></label>
                             <input type="text" id="nama_lengkap"
                                 class="bg-neutral-secondary-medium border border-[#AD8331] text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] block w-full px-3 py-2.5 shadow-xs placeholder:text-gray-500"
                                 placeholder="" required name="customer_name" />
                         </div>
                         <div class="max-md:col-span-2">
                             <label for="nomor_whatsapp" class="block mb-2.5 text-sm font-medium text-heading">Nomor
-                                WhatsApp</label>
+                                WhatsApp<span class="text-red-500">*</span></label>
                             <div class="relative">
                                 <div
                                     class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
@@ -145,21 +145,14 @@
                                 </span>
                                 <input type="text" name="customer_instagram" id="username_instagram"
                                     class="rounded-none rounded-e-base block w-full px-3 py-2.5 bg-neutral-secondary-medium border border-[#AD8331] text-heading text-sm focus:ring-[#AD8331] focus:border-[#AD8331] placeholder:text-gray-500"
-                                    placeholder="a4florist">
+                                    placeholder="username_instagram" />
                             </div>
-                        </div>
-
-                        <div class="col-span-2">
-                            <label for="alamat_pengiriman" class="block mb-2.5 text-sm font-medium text-heading">Alamat
-                                Pengiriman</label>
-                            <textarea name="delivery_address" id="alamat_pengiriman" rows="5"
-                                class="bg-neutral-secondary-medium border border-[#AD8331] text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] block w-full p-3.5 shadow-xs placeholder:text-gray-500"
-                                placeholder="Tuliskan alamat lengkap kamu di sini..."></textarea>
                         </div>
 
                         <div class="">
                             <label for="tanggal_pengambilan"
-                                class="block mb-2.5 text-sm font-medium text-heading">Tanggal Pengambilan</label>
+                                class="block mb-2.5 text-sm font-medium text-heading">Tanggal Pengambilan<span
+                                    class="text-red-500">*</span></label>
                             <div class="relative max-w-sm">
                                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                     <svg class="w-4 h-4 text-[#AD8331]" aria-hidden="true"
@@ -172,13 +165,13 @@
                                 </div>
                                 <input id="tanggal_pengambilan" type="date" name="pickup_date"
                                     class="block w-full ps-9 pe-3 bg-neutral-secondary-medium border border-[#AD8331] text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] px-3 py-2.5 shadow-xs placeholder:text-gray-500"
-                                    placeholder="Select date">
+                                    placeholder="Select date" required />
                             </div>
                         </div>
 
                         <div>
                             <label for="jam_pengambilan" class="block mb-2 text-sm font-medium text-heading">Jam
-                                Pengambilan</label>
+                                Pengambilan<span class="text-red-500">*</span></label>
                             <div class="relative">
                                 <div
                                     class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
@@ -191,16 +184,16 @@
                                 </div>
                                 <input name="pickup_time" type="time" id="jam_pengambilan"
                                     class="block w-full p-2.5 bg-neutral-secondary-medium border border-[#AD8331] text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] shadow-xs placeholder:text-gray-500"
-                                    value="00:00" required />
+                                    required />
                             </div>
                         </div>
 
                         <div>
                             <label for="metode_pengambilan" class="block mb-2.5 text-sm font-medium text-heading">Metode
-                                Pengambilan</label>
+                                Pengambilan<span class="text-red-500">*</span></label>
                             <select name="pickup_method" id="metode_pengambilan"
                                 class="block w-full px-3 py-2.5 bg-neutral-secondary-medium border border-[#AD8331] text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] shadow-xs placeholder:text-gray-500"
-                                placeholder="Pilih Pengambilan">
+                                placeholder="Pilih Pengambilan" required>
                                 <option value="">Pilih Metode</option>
                                 <option value="courier">Kurir</option>
                                 <option value="self_pickup">Ambil Sendiri</option>
@@ -209,14 +202,24 @@
 
                         <div>
                             <label for="metode_pembayaran" class="block mb-2.5 text-sm font-medium text-heading">Metode
-                                Pembayaran</label>
+                                Pembayaran<span class="text-red-500">*</span></label>
                             <select name="payment_method" id="metode_pembayaran"
                                 class="block w-full px-3 py-2.5 bg-neutral-secondary-medium border border-[#AD8331] text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] shadow-xs placeholder:text-gray-500"
-                                placeholder="Pilih Pengambilan">
+                                placeholder="Pilih Pengambilan" required>
                                 <option value="">Pilih Metode</option>
                                 <option value="cash">Cash</option>
                                 <option value="transfer">Transfer</option>
                             </select>
+                        </div>
+
+                        <div class="col-span-2">
+                            <label for="alamat_pengiriman" class="block mb-2.5 text-sm font-medium text-heading">Alamat
+                                Pengiriman<span class="text-red-500">*</span></label>
+                            <textarea name="delivery_address" id="alamat_pengiriman" rows="5"
+                                class="bg-neutral-secondary-medium border border-[#AD8331] text-heading text-sm rounded-base focus:ring-[#AD8331] focus:border-[#AD8331] block w-full p-3.5 shadow-xs placeholder:text-gray-500"
+                                placeholder="Tuliskan alamat lengkap kamu di sini..." required></textarea>
+                            <p id="helper-text-explanation" class="mt-2.5 text-sm text-gray-500">
+                                Jika Metode Pengambilannya "Ambil Sendiri" Silahkan diisikan Ambil Di Toko!</p>
                         </div>
 
                         <div class="col-span-2">

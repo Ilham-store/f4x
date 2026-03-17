@@ -2,10 +2,13 @@
 
 namespace App\Filament\Resources\Products\Tables;
 
+use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\ToggleButtons;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -57,6 +60,26 @@ class ProductsTable
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
+                    BulkAction::make('updateActiveStatus')
+                        ->label('Set Status Aktif')
+                        ->modalSubmitActionLabel('Simpan')
+                        ->icon('heroicon-o-check-circle')
+                        ->form([
+                            ToggleButtons::make('is_active')
+                                ->label('Is Active?')
+                                ->boolean()
+                                ->inline()
+                                ->required(),
+                        ])
+                        ->action(function (\Illuminate\Database\Eloquent\Collection $records, array $data): void {
+                            $records->each(fn ($record) => $record->update(['is_active' => $data['is_active']]));
+                            
+                            Notification::make()
+                                ->title('Status massal diperbarui!')
+                                ->success()
+                                ->send();
+                        })
+                        ->deselectRecordsAfterCompletion(),
                 ]),
             ]);
     }

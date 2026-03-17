@@ -364,12 +364,12 @@
 
         <button id="btn-share" onclick="generatePDF()"
             class="basis-[33%] px-4 py-4 bg-blue-600 text-white text-md font-semibold rounded-lg hover:bg-blue-700 inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
-            <svg id="icon-share" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                    d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
             </svg>
-            <span id="text-share">Bagikan PDF (*ujicoba)</span>
+            <span id="text-share">Download PDF</span>
         </button>
 
         <button onclick="window.print()"
@@ -383,172 +383,6 @@
         </button>
     </div>
 
-
-
-    {{-- Script Awal --}}
-    {{--
-    <script>
-        async function generatePDF() {
-            const element = document.getElementById('invoice-card');
-            const btn = document.getElementById('btn-share');
-
-            if (!element) return;
-
-            // 1. Simpan gaya asli (Termasuk margin dan bayangan)
-            const originalWidth = element.style.width;
-            const originalMaxWidth = element.style.maxWidth;
-            const originalMargin = element.style.margin;
-            const originalShadow = element.style.boxShadow;
-
-            // 2. UI Loading State
-            btn.disabled = true;
-            const originalContent = btn.innerHTML;
-            btn.innerHTML = 'Memproses PDF...';
-
-            try {
-                // 3. PAKSA LEBAR & HILANGKAN MARGIN (Kunci utama agar tidak geser/terpotong)
-                element.style.width = '794px'; // Angka presisi untuk lebar A4 dalam pixel (96dpi)
-                element.style.maxWidth = '794px';
-                element.style.margin = '0';      // Hilangkan margin auto yang bikin space kosong
-                element.style.boxShadow = 'none'; // Hilangkan shadow agar bersih di PDF
-
-                // 4. Ambil gambar
-                const dataUrl = await htmlToImage.toPng(element, {
-                    backgroundColor: '#ffffff',
-                    pixelRatio: 2,
-                });
-
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF('p', 'mm', 'a4');
-
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfPageHeight = pdf.internal.pageSize.getHeight();
-
-                const imgProps = pdf.getImageProperties(dataUrl);
-                const imgWidth = pdfWidth;
-                const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-                // 5. LOGIKA MULTI-PAGE
-                let heightLeft = imgHeight;
-                let position = 0;
-
-                // Halaman Pertama
-                pdf.addImage(dataUrl, 'PNG', 0, position, imgWidth, imgHeight);
-                heightLeft -= pdfPageHeight;
-
-                // Tambahkan halaman baru jika konten masih tersisa
-                while (heightLeft > 0) {
-                    position = heightLeft - imgHeight;
-                    pdf.addPage();
-                    pdf.addImage(dataUrl, 'PNG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pdfPageHeight;
-                }
-
-                // 6. Simpan File
-                pdf.save('Invoice-{{ $order->order_number }}.pdf');
-
-            } catch (error) {
-                console.error('PDF Error:', error);
-                alert('Gagal membuat PDF.');
-            } finally {
-                // 7. KEMBALIKAN GAYA ASLI (Agar tampilan web kembali normal)
-                element.style.width = originalWidth;
-                element.style.maxWidth = originalMaxWidth;
-                element.style.margin = originalMargin;
-                element.style.boxShadow = originalShadow;
-
-                btn.disabled = false;
-                btn.innerHTML = originalContent;
-            }
-        }
-    </script> --}}
-
-    {{-- Scirpt Kedua
-    <script>
-        async function generatePDF() {
-            const element = document.getElementById('invoice-card');
-            const btn = document.getElementById('btn-share');
-
-            if (!element) return;
-
-            // 1. Simpan gaya asli
-            const originalWidth = element.style.width;
-            const originalMaxWidth = element.style.maxWidth;
-            const originalMargin = element.style.margin;
-            const originalShadow = element.style.boxShadow;
-
-            // 2. UI Loading State
-            btn.disabled = true;
-            const originalContent = btn.innerHTML;
-            btn.innerHTML = 'Memproses PDF...';
-
-            try {
-                // 3. PAKSA LEBAR & HILANGKAN MARGIN
-                element.style.width = '794px';
-                element.style.maxWidth = '794px';
-                element.style.margin = '0';
-                element.style.boxShadow = 'none';
-
-                // 4. Ambil gambar dengan filter untuk menghindari SecurityError & 404
-                const dataUrl = await htmlToImage.toPng(element, {
-                    backgroundColor: '#ffffff',
-                    pixelRatio: 2,
-                    // SOLUSI EROR KONSOL: Skip pembacaan font eksternal yang sering kena CORS
-                    skipFonts: true,
-                    // SOLUSI EROR 404: Filter elemen atau style yang tidak perlu di-inline
-                    filter: (node) => {
-                        // Abaikan tag script atau elemen yang tidak ingin masuk PDF
-                        if (node.tagName === 'SCRIPT') return false;
-                        return true;
-                    },
-                });
-
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF('p', 'mm', 'a4');
-
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfPageHeight = pdf.internal.pageSize.getHeight();
-
-                const imgProps = pdf.getImageProperties(dataUrl);
-                const imgWidth = pdfWidth;
-                const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-                // 5. LOGIKA MULTI-PAGE
-                let heightLeft = imgHeight;
-                let position = 0;
-
-                // Halaman Pertama
-                pdf.addImage(dataUrl, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
-                heightLeft -= pdfPageHeight;
-
-                // Tambahkan halaman baru jika konten masih tersisa
-                while (heightLeft > 0) {
-                    position = heightLeft - imgHeight;
-                    pdf.addPage();
-                    pdf.addImage(dataUrl, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
-                    heightLeft -= pdfPageHeight;
-                }
-
-                // 6. Simpan File
-                pdf.save('Invoice-{{ $order->order_number }}.pdf');
-
-            } catch (error) {
-                console.error('PDF Error:', error);
-                alert('Gagal membuat PDF: ' + error.message);
-            } finally {
-                // 7. KEMBALIKAN GAYA ASLI
-                element.style.width = originalWidth;
-                element.style.maxWidth = originalMaxWidth;
-                element.style.margin = originalMargin;
-                element.style.boxShadow = originalShadow;
-
-                btn.disabled = false;
-                btn.innerHTML = originalContent;
-            }
-        }
-    </script> --}}
-
-    {{-- Script ke Tiga --}}
     <script>
         async function generatePDF() {
             const element = document.getElementById('invoice-card');

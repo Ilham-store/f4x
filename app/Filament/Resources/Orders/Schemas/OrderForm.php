@@ -10,6 +10,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 
 class OrderForm
@@ -58,8 +59,11 @@ class OrderForm
                             ->required(),
         
                         TextInput::make('customer_phone')
+                            ->tel()
                             ->required()
-                            ->numeric(),
+                            ->numeric()
+                            ->mask('9999999999999')
+                            ->stripCharacters(['-', ' ', '+']),
         
                         TextInput::make('customer_instagram')
                             ->label('Instagram Customer')
@@ -97,12 +101,14 @@ class OrderForm
                         
                         DatePicker::make('pickup_date')
                             ->label('Tanggal Pengambilan')
-                            ->nullable(),
+                            ->nullable()
+                            ->required(),
                         
                         TimePicker::make('pickup_time')
                             ->label('Jam Pengambilan')
                             ->seconds(false)
-                            ->nullable(),
+                            ->nullable()
+                            ->required(),
 
                         Textarea::make('delivery_address')
                                 ->required()
@@ -188,6 +194,7 @@ class OrderForm
                             TextInput::make('quantity')
                                 ->numeric()
                                 ->default(1)
+                                ->minValue(1)
                                 ->required()
                                 ->reactive()
                                 ->afterStateUpdated(function ($state, callable $set, callable $get) {
@@ -264,6 +271,7 @@ class OrderForm
                             ->prefix('Rp')
                             ->numeric()
                             ->default(0)
+                            ->minValue(0)
                             ->live(onBlur: true)
                             ->afterStateUpdated(function ($state, callable $set, callable $get) {
                         
@@ -295,6 +303,7 @@ class OrderForm
                         TextInput::make('discount_value')
                             ->numeric()
                             ->default(0)
+                            ->minValue(0)
                             ->live(onBlur: true)
                             ->afterStateUpdated(function ($state, callable $set, callable $get) {
                         
