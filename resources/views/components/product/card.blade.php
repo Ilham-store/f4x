@@ -1,4 +1,4 @@
-<li class="max-sm:flex">
+<li class="grid">
     <section class="block border border-[#AD8331] rounded-lg p-4 shadow-sm hover:shadow-md transition bg-white">
 
         <img loading="lazy" src="{{ route('product.image', basename($product->first_image)) }}"

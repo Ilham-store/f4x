@@ -45,11 +45,16 @@
                             d="M10 21v-9m3-4H7.5a2.5 2.5 0 1 1 0-5c1.5 0 2.875 1.25 3.875 2.5M14 21v-9m-9 0h14v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-8ZM4 8h16a1 1 0 0 1 1 1v3H3V9a1 1 0 0 1 1-1Zm12.155-5c-3 0-5.5 5-5.5 5h5.5a2.5 2.5 0 0 0 0-5Z" />
                     </svg>
                     <a href="#">
-                        <h5 class="mb-2 text-2xl font-semibold tracking-tight text-white">Kualitas Terjamin & Custom</h5>
+                        <h5 class="mb-2 text-2xl max-sm:text-lg font-semibold tracking-tight text-white">Kualitas Terjamin
+                            &
+                            Custom</h5>
                     </a>
-                    <p class="mb-3 text-gray-100">Kami menggunakan material premium untuk buket dan pacel. Setiap pesanan
+                    <p class="mb-3 max-sm:text-sm text-gray-100">Kami menggunakan material premium untuk buket dan pacel.
+                        Setiap
+                        pesanan
                         bisa disesuaikan dengan keinginanmu.</p>
-                    <a href="#product" class="inline-flex font-medium items-center text-amber-200 hover:underline">
+                    <a href="#product"
+                        class="inline-flex max-sm:text-base font-medium items-center text-amber-200 hover:underline">
                         Lihat Produk Kami
                         <svg class="w-4 h-4 ms-2 rtl:rotate-[270deg]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -66,12 +71,14 @@
                             d="M7.99999 10.8571 12 13.1428m-4.00001-2.2857L4 13.1428m3.99999-2.2857.00004-4.57139M12 13.1428v4.5715m0-4.5715-4.00001 2.2857M12 13.1428l4-2.2857m-4 2.2857V8.57143m0 4.57137 4 2.2858m-4 2.2857L7.99999 20M12 17.7143 16 20m-8.00001 0L4 17.7143v-4.5715M7.99999 20v-4.5715M4 13.1428l3.99999 2.2857M16 6.28571 12 4 8.00003 6.28571m7.99997 0v4.57139m0-4.57139-4 2.28572m4 2.28567 4 2.2858M8.00003 6.28571 12 8.57143m8 4.57147v4.5714L16 20m4-6.8571-4 2.2857M16 20v-4.5714" />
                     </svg>
                     <a href="#">
-                        <h5 class="mb-2 text-2xl font-semibold tracking-tight text-white">Pengiriman Cepat</h5>
+                        <h5 class="mb-2 text-2xl max-sm:text-lg font-semibold tracking-tight text-white">Pengiriman Cepat
+                        </h5>
                     </a>
-                    <p class="mb-3 text-gray-100">Kami memahami momen spesialmu tidak bisa menunggu. Melayani pengiriman
+                    <p class="mb-3 max-sm:text-sm text-gray-100">Kami memahami momen spesialmu tidak bisa menunggu. Melayani
+                        pengiriman
                         area Sengkang dan seluruh wilayah Wajo dengan aman dan tepat waktu.</p>
                     <button type="button" data-modal-target="daftar-kurir-modal" data-modal-toggle="daftar-kurir-modal"
-                        class="inline-flex font-medium items-center text-amber-200 hover:underline">
+                        class="inline-flex max-sm:text-base font-medium items-center text-amber-200 hover:underline">
                         Lihat Kurir Kami
                         <svg class="w-4 h-4 ms-2 rtl:rotate-[270deg]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -143,13 +150,15 @@
                             d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
                     </svg>
                     <a href="#">
-                        <h5 class="mb-2 text-2xl font-semibold tracking-tight text-white">Alur Pesan Sangat Mudah</h5>
+                        <h5 class="mb-2 text-2xl max-sm:text-lg font-semibold tracking-tight text-white">Alur Pesan Sangat
+                            Mudah</h5>
                     </a>
-                    <p class="mb-3 text-gray-100">Pesan kado spesial tidak perlu ribet. Cukup pilih produk, klik, dan admin
+                    <p class="mb-3 max-sm:text-sm text-gray-100">Pesan kado spesial tidak perlu ribet. Cukup pilih produk,
+                        klik, dan admin
                         kami akan memandu prosesnya langsung via WhatsApp.</p>
                     <button type="button" data-modal-target="metode-pemesanan-modal"
                         data-modal-toggle="metode-pemesanan-modal"
-                        class="inline-flex font-medium items-center text-amber-200 hover:underline">
+                        class="inline-flex max-sm:text-base font-medium items-center text-amber-200 hover:underline">
                         Lihat Cara Pemesanan
                         <svg class="w-4 h-4 ms-2 rtl:rotate-[270deg]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -230,7 +239,7 @@
                 <h3 class="text-xl font-semibold text-gray-900 sm:text-3xl">Product Collection</h3>
             </div>
             <div class="mx-auto px-4 py-0.5 sm:px-6 lg:px-8">
-                <ul class="mt-3 grid gap-2 max-sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-stretch">
+                <ul class="mt-3 grid gap-2 content-stretch max-sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     @forelse($products as $product)
                         <x-product.card :product="$product" />
                     @empty
