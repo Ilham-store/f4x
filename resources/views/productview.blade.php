@@ -41,8 +41,8 @@
 
 @push('schema')
     <script type="application/ld+json">
-                        {!! json_encode($schemaData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
-                        </script>
+                                    {!! json_encode($schemaData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+                                    </script>
 @endpush
 
 @section('content')
@@ -173,8 +173,8 @@
                             {{ $product->category->name ?? 'Kategori Umum' }}
                         </span>
 
-                        <div class="mt-4 mb-6 text-gray-700 whitespace-pre-line leading-relaxed">
-                            {!! nl2br(e($product->description)) !!}
+                        <div class="mt-4 mb-6 text-gray-700 whitespace-pre-line leading-normal">
+                            {{ $product->description }}
                         </div>
                     </div>
                 </div>
