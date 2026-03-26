@@ -7,27 +7,28 @@
 @section('content')
     <section class="bg-white">
         {{-- Hero Section --}}
-        <div id="indicators auto-play draggable"
-            data-carousel='{ "loadingClasses": "opacity-0", "dotsItemClasses": "carousel-dot carousel-active:bg-[#AD8331]", "isAutoPlay": true, "speed": 3000, "slidesQty": { "xs": 1, "lg": 1 }, "isDraggable": true }'
+        <div id="carousel"
+            data-carousel='{ "loadingClasses": "opacity-0", "dotsItemClasses": "carousel-dot carousel-active:bg-[#AD8331]", "slidesQty": { "xs": 1, "lg": 1 }, "isDraggable": true, "isAutoPlay": true, "speed": 5000 }'
             class="relative w-full pt-20 px-4 sm:px-6 lg:px-8">
-            <div class="carousel h-h-max">
-                <div class="carousel-body h-full opacity-0">
+            <div class="carousel">
+                <div
+                    class="carousel-body h-full carousel-dragging:transition-none carousel-dragging:cursor-grabbing cursor-grab opacity-0">
                     <!-- Slide 1 -->
                     <div class="carousel-slide">
                         <div class="flex h-full justify-center">
-                            <img loading="lazy" src="/images/Slide-1.svg" class="size-full object-cover" alt="game" />
+                            <img loading="lazy" src="/images/Slide-1.svg" class="size-full object-cover" alt="slide-1" />
                         </div>
                     </div>
                     <!-- Slide 2 -->
                     <div class="carousel-slide">
                         <div class="flex h-full justify-center">
-                            <img loading="lazy" src="/images/Slide-2.svg" class="size-full object-cover" alt="game" />
+                            <img loading="lazy" src="/images/Slide-2.svg" class="size-full object-cover" alt="slide-3" />
                         </div>
                     </div>
                     <!-- Slide 3 -->
                     <div class="carousel-slide">
                         <div class="flex h-full justify-center">
-                            <img loading="lazy" src="/images/Slide-3.svg" class="size-full object-cover" alt="game" />
+                            <img loading="lazy" src="/images/Slide-3.svg" class="size-full object-cover" alt="slide-3" />
                         </div>
                     </div>
                 </div>

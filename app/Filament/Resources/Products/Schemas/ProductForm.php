@@ -26,7 +26,8 @@ class ProductForm
                     ->nullable()
                     ->optimize('webp', 70)
                     ->resize(60)
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->panelLayout('grid'),
 
                 TextInput::make('name')
                     ->required()

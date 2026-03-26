@@ -54,33 +54,123 @@ class OrderFormRequestForm
                     ->live()
                     ->schema([
                         Select::make('product_id')
-                            ->relationship('product', 'name')
+                            ->relationship(
+                                'product', 
+                                'name',
+                                modifyQueryUsing: fn ($query) => $query->where('is_active', true) 
+                            )
+                            ->searchable()
+                            ->preload()
                             ->required()
                             ->live()
+                            ->allowHtml()
+                            ->getOptionLabelFromRecordUsing(function ($record,Select $component) {
+                                
+                                $imagePath = is_array($record->images) ? ($record->images[0] ?? null) : $record->image;
+                                
+                                if ($imagePath) {
+                                    $filename = basename($imagePath);
+                                    $imageUrl = url('/product-image/' . $filename);
+                                } else {
+                                    $imageUrl = 'https://ui-avatars.com/api/?name=' . urlencode($record->name) . '&background=random';
+                                }
+
+                                $isDisabled = $component->isDisabled();
+                                $cursorStyle = $isDisabled ? 'cursor: default;' : 'cursor: zoom-in;';
+
+                                $onClickScript = '';
+                                if (! $isDisabled) {
+                                    $onClickScript = "onclick=\"
+                                        event.stopPropagation(); 
+                                        event.preventDefault(); 
+                                        
+                                        const overlay = document.createElement('div'); 
+                                        overlay.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.75); z-index:99999; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px);'; 
+                                        
+                                        ['mousedown', 'mouseup', 'click', 'pointerdown', 'pointerup'].forEach(ev => {
+                                            overlay.addEventListener(ev, e => e.stopPropagation());
+                                        });
+                                        
+                                        const closeModal = () => {
+                                            if (document.body.contains(overlay)) {
+                                                document.body.removeChild(overlay);
+                                            }
+                                        };
+                                        
+                                        overlay.onclick = (e) => { 
+                                            if(e.target === overlay) closeModal(); 
+                                        }; 
+                                        
+                                        const modal = document.createElement('div'); 
+                                        modal.style.cssText = 'position:relative; background:white; padding:16px; border-radius:12px; display:flex; flex-direction:column; align-items:center; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5); max-width:90vw; max-height:90vh;'; 
+                                        
+                                        const closeBtn = document.createElement('button'); 
+                                        closeBtn.innerHTML = '✕'; 
+                                        closeBtn.style.cssText = 'position:absolute; top:-12px; right:-12px; width:30px; height:30px; background:#ef4444; color:white; border:none; border-radius:50%; font-weight:bold; cursor:pointer; box-shadow:0 4px 6px rgba(0,0,0,0.1); display:flex; align-items:center; justify-content:center; font-size:14px; padding:0; line-height:1; z-index:10;'; 
+                                        closeBtn.onclick = () => closeModal(); 
+                                        
+                                        const img = document.createElement('img'); 
+                                        img.src = this.src; 
+                                        img.style.cssText = 'max-width:100%; max-height:60vh; border-radius:8px; object-fit:contain;'; 
+                                        
+                                        const btn = document.createElement('button'); 
+                                        btn.innerHTML = 'Pilih Produk Ini'; 
+                                        btn.style.cssText = 'margin-top:16px; width:100%; padding:10px; background:#AD8331; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; font-size:15px;'; 
+                                        
+                                        const optionRow = this.closest('.product-option-row');
+                                        btn.onclick = () => { 
+                                            closeModal(); 
+                                            if(optionRow) optionRow.click(); 
+                                        }; 
+                                        
+                                        modal.appendChild(closeBtn); 
+                                        modal.appendChild(img); 
+                                        modal.appendChild(btn); 
+                                        overlay.appendChild(modal); 
+                                        document.body.appendChild(overlay);
+                                    \"";
+                                }
+
+                                return "
+                                    <div class='product-option-row' style='display: flex; align-items: center; gap: 12px; padding: 4px 0;'>
+                                        <img 
+                                            src='{$imageUrl}' 
+                                            alt='{$record->name}' 
+                                            style='width: 45px; height: 45px; border-radius: 6px; object-fit: cover; border: 1px solid #e5e7eb; {$cursorStyle}' 
+                                            {$onClickScript}
+                                        />
+                                        <div style='display: flex; flex-direction: column;'>
+                                            <span style='font-weight: 600; line-height: 1.2;'>{$record->name}</span>
+                                            <span style='font-size: 0.8rem; color: #6b7280; margin-top: 2px;'>
+                                                Rp " . number_format($record->price, 0, ',', '.') . " &bull; Stok: <strong style='color: " . ($record->stock > 0 ? '#10b981' : '#ef4444') . ";'>{$record->stock}</strong>
+                                            </span>
+                                        </div>
+                                    </div>
+                                ";
+                            })
                             ->afterStateUpdated(function ($state, Set $set, Get $get) {
-                        
+                                
                                 $product = Product::find($state);
-                        
+                                
                                 $unitPrice = $product?->price ?? 0;
                                 $qty = $get('quantity') ?? 1;
-                        
-                                // Simpan harga asli (opsional tapi bagus)
+                                
+                                // Simpan harga asli
                                 $set('unit_price', $unitPrice);
-                        
+                                
                                 // Set total ke field price
                                 $set('price', $unitPrice * $qty);
-                        
+                                
                                 self::updateTotals($get, $set);
                             }),
 
                         Hidden::make('unit_price'),
-                
+
                         TextInput::make('quantity')
                             ->numeric()
                             ->default(1)
-                            ->live()
+                            ->live(onBlur: true)
                             ->afterStateUpdated(function (Get $get, Set $set) {
-
                                 $unitPrice = $get('unit_price') ?? 0;
                                 $qty = $get('quantity') ?? 1;
                         
@@ -88,8 +178,6 @@ class OrderFormRequestForm
                         
                                 self::updateTotals($get, $set);
                             }),
-
-                        Hidden::make('unit_price'),
 
                         TextInput::make('price')
                             ->numeric()
