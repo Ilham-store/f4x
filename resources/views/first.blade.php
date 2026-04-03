@@ -22,7 +22,7 @@
                     <!-- Slide 2 -->
                     <div class="carousel-slide">
                         <div class="flex h-full justify-center">
-                            <img loading="lazy" src="/images/Slide-2.svg" class="size-full object-cover" alt="slide-3" />
+                            <img loading="lazy" src="/images/Slide-2.svg" class="size-full object-cover" alt="slide-2" />
                         </div>
                     </div>
                     <!-- Slide 3 -->
